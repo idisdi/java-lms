@@ -32,7 +32,11 @@ public class Answers {
         return answers.stream().allMatch(answer -> answer.isOwner(loginUser));
     }
 
-    public List<DeleteHistory> deleteAll() {
-        return answers.stream().map(Answer::delete).collect(Collectors.toList());
+    public List<DeleteHistory> deleteAll(NsUser loginUser) throws CannotDeleteException {
+        validateOwnership(loginUser);
+
+        return answers.stream()
+                .map(Answer::delete)
+                .collect(Collectors.toList());
     }
 }
